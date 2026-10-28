@@ -21,8 +21,9 @@ public class UserDAO {
 
 		try {
 			// insert user in db
-			String sql = "insert into user_details(full_name, email, password) values(?,?,?)";
 
+			String sql = "INSERT INTO SYS.USER_DETAILS "
+			           + "(full_name, email, password) VALUES (?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getFullName());
 			pstmt.setString(2, user.getEmail());
@@ -51,7 +52,9 @@ public class UserDAO {
 		User user = null;
 
 		try {
-			String sql = "select * from user_details where email=? and password=?";
+			String sql = "SELECT * FROM SYS.USER_DETAILS "
+			           + "WHERE email = ? AND password = ?";
+			
 
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 			pstmt.setString(1, email);
@@ -91,7 +94,9 @@ public class UserDAO {
 
 		try {
 
-			String sql = "select * from user_details where id=? and password=?";
+//			String sql = "select * from user_details where id=? and password=?";
+			String sql = "SELECT * FROM SYS.USER_DETAILS "
+			           + "WHERE id = ? AND password = ?";
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 			pstmt.setInt(1, userId);
 			pstmt.setString(2, oldPassword);
@@ -117,7 +122,8 @@ public class UserDAO {
 
 		try {
 
-			String sql = "update user_details set password=? where id=?";
+//			String sql = "update user_details set password=? where id=?";
+			String sql = "UPDATE SYS.USER_DETAILS SET password = ? WHERE id = ?";
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 			pstmt.setString(1, newPassword);
 			pstmt.setInt(2, userId);

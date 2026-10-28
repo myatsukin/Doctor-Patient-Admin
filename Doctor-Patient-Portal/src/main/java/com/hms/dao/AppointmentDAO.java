@@ -24,7 +24,10 @@ public class AppointmentDAO {
 
 		try {
 
-			String sql = "insert into appointment(userId, fullName, gender, age, appointmentDate, email, phone, diseases, doctorId, address, status) values(?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO SYS.APPOINTMENT "
+				    + "(userId, fullName, gender, age, appointmentDate, email, "
+				    + "phone, diseases, doctorId, address, status) "
+				    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 
 			pstmt.setInt(1, appointment.getUserId());
@@ -59,7 +62,8 @@ public class AppointmentDAO {
 
 		try {
 
-			String sql = "select * from appointment where userId=?";
+//			String sql = "select * from appointment where userId=?";
+			String sql = "SELECT * FROM SYS.APPOINTMENT WHERE userId = ?";
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 
 			pstmt.setInt(1, userId);
@@ -103,7 +107,8 @@ public class AppointmentDAO {
 
 		try {
 
-			String sql = "select * from appointment where doctorId=?";
+//			String sql = "select * from appointment where doctorId=?";
+			String sql = "SELECT * FROM SYS.APPOINTMENT WHERE doctorId = ?";
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 
 			pstmt.setInt(1, doctorId);
@@ -145,7 +150,8 @@ public class AppointmentDAO {
 
 		try {
 
-			String sql = "select * from appointment where id=?";
+//			String sql = "select * from appointment where id=?";
+			String sql = "SELECT * FROM SYS.APPOINTMENT WHERE id = ?";
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 
 			pstmt.setInt(1, id);
@@ -186,7 +192,9 @@ public class AppointmentDAO {
 
 		try {
 
-			String sql = "update appointment set status=? where id=? and doctorId=?";
+//			String sql = "update appointment set status=? where id=? and doctorId=?";
+			String sql = "UPDATE SYS.APPOINTMENT "
+				    + "SET status = ? WHERE id = ? AND doctorId = ?";
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 			pstmt.setString(1, comment);
 			pstmt.setInt(2, apptId);
@@ -210,7 +218,8 @@ public class AppointmentDAO {
 
 		try {
 
-			String sql = "select * from appointment order by id desc";
+//			String sql = "select * from appointment order by id desc";
+			String sql = "SELECT * FROM SYS.APPOINTMENT ORDER BY id DESC";
 			PreparedStatement pstmt = this.conn.prepareStatement(sql);
 
 			ResultSet resultSet = pstmt.executeQuery();

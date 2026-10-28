@@ -9,74 +9,48 @@ import java.util.List;
 import com.hms.entity.Specialist;
 
 public class SpecialistDAO {
-	
-	private Connection conn;
 
-	public SpecialistDAO(Connection conn) {
-		super();
-		this.conn = conn;
-	}
-	
-	public boolean addSpecialist(String sp) {
-		
-		boolean f = false;
-		
-		try {
-			
-			String sql = "insert into specialist (specialist_name) values(?)";
-			PreparedStatement pstmt = this.conn.prepareStatement(sql);
-			
-			pstmt.setString(1, sp);
-			
-			pstmt.executeUpdate();
-			
-			f = true;
-			
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		return f;
-		
-	}
-	
-	public List<Specialist> getAllSpecialist(){
-		
-		List<Specialist> spList = new ArrayList<Specialist>();
-		
-		Specialist specialistObj = null;
-		
-		try {
-			
-			String sql = "select * from specialist";
-			PreparedStatement pstmt = this.conn.prepareStatement(sql);
-			ResultSet resultSet = pstmt.executeQuery();
-			
-			while(resultSet.next()) {
-				
-				//create object
-				specialistObj = new Specialist();
-				//specialistObj.setId(resultSet.getInt("id"));
-				//specialistObj.setSpecialistName(resultSet.getString("specialist_name"));
-				//above two line same as below line
-				specialistObj.setId(resultSet.getInt(1));//column index number 1 -(id)
-				specialistObj.setSpecialistName(resultSet.getString(2));//column index number 2 -(specialist_name)
-				
-				//now add specialist object into List 
-				spList.add(specialistObj);
-			}
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		return spList;
-	}
+    private Connection conn;
 
+    public SpecialistDAO(Connection conn) {
+        super();
+        this.conn = conn;
+    }
+
+    // Add a specialist
+    public boolean addSpecialist(String sp) {
+        String sql = "INSERT INTO SYS.SPECIALIST (specialist_name) VALUES (?)";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, sp);
+            return pstmt.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Get all specialists
+    public List<Specialist> getAllSpecialist() {
+        List<Specialist> spList = new ArrayList<>();
+
+        String sql = "SELECT * FROM SYS.SPECIALIST ORDER BY id";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Specialist specialistObj = new Specialist();
+                specialistObj.setId(rs.getInt("id"));
+                specialistObj.setSpecialistName(rs.getString("specialist_name"));
+                spList.add(specialistObj);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return spList;
+    }
 }
